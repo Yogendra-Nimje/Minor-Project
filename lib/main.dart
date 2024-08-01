@@ -11,9 +11,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: Text("Title : Find.in (Job Search)"),
+            child: Text(
+              "Title : Find.in (Job Search)",
+              style: TextStyle(
+                fontSize: 30,
+            ),
+            ),
           ),
         ],
       ),
