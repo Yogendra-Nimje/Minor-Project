@@ -1,3 +1,4 @@
+import 'package:find_in/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,19 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Text(
-              "Title : Find.in (Job Search)",
-              style: TextStyle(
-                fontSize: 30,
-            ),
-            ),
-          ),
-        ],
-      ),
+      debugShowCheckedModeBanner: false,
+      home: ProfilePage()
     );
   }
 }
