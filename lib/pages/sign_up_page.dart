@@ -1,18 +1,16 @@
 import 'package:animated_background/animated_background.dart';
-import 'package:find_in/pages/home_pages/home_page.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _SignUpPageState createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
+class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Color?> _colorAnimation;
-  bool _obscureText = true;
 
   @override
   void initState() {
@@ -54,7 +52,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             ),
             child: AnimatedBackground(
               behaviour: RandomParticleBehaviour(
-                options: ParticleOptions(
+                options: const ParticleOptions(
                   baseColor: Colors.white,
                   spawnOpacity: 0.0,
                   opacityChangeRate: 0.25,
@@ -75,43 +73,38 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   children: [
                     const TextField(
                       decoration: InputDecoration(
+                        hintText: 'Name',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const TextField(
+                      decoration: InputDecoration(
                         hintText: 'Email',
                         border: OutlineInputBorder(),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    TextField(
-                      obscureText: _obscureText,
+                    const TextField(
+                      obscureText: true,
                       decoration: InputDecoration(
                         hintText: 'Password',
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscureText
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _obscureText = !_obscureText;
-                            });
-                          },
-                        ),
+                        border: OutlineInputBorder(),
                       ),
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomePage()));
+                        // Handle sign up logic
                       },
-                      child: const Text('Login'),
+                      child: const Text('Sign Up'),
                     ),
                     const SizedBox(height: 20),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/signup');
+                        Navigator.pop(context);
                       },
-                      child: const Text('Don’t have an account? Sign Up'),
+                      child: const Text('Already have an account? Login'),
                     ),
                   ],
                 ),

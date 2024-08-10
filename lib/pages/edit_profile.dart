@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_input/image_input.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -14,21 +15,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController bioController = TextEditingController();
   TextEditingController linksController = TextEditingController();
 
+  XFile? profilAvatarCurrentImage;
+  bool allowEdit=true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              // Save action
-            },
-            child: const Text(
-              'Done',
-              style: TextStyle(color: Colors.white),
+        actions: const [
+          Row(
+              children: [
+                Text("Save ",style: TextStyle(fontWeight:FontWeight.bold),),
+                Icon(Icons.save_alt,color: Colors.blue,)
+              ],
             ),
-          ),
         ],
       ),
       body: Padding(
@@ -38,39 +39,119 @@ class _EditProfilePageState extends State<EditProfilePage> {
             Center(
               child: Stack(
                 children: [
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage('assets/profile_picture.jpg'), // Replace with actual image asset
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.blue,
-                      child: IconButton(
-                        icon: const Icon(Icons.edit, size: 15, color: Colors.white),
-                        onPressed: () {
-                          // Change profile photo action
-                        },
+                  ProfileAvatar(
+                    image: profilAvatarCurrentImage,
+                    radius: 60,
+                    allowEdit: allowEdit,
+                    addImageIcon: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Icon(Icons.add_a_photo),
                       ),
                     ),
+                    removeImageIcon: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: const Padding(
+                        padding:  EdgeInsets.all(8.0),
+                        child: Icon(Icons.close),
+                      ) ,
+                    ),
+                    onImageChanged: (XFile? image){
+                      setState(() {
+                        profilAvatarCurrentImage= image;
+                      });
+                    },
+                    onImageRemoved: (){
+                      setState(() {
+                        profilAvatarCurrentImage=null;
+                      });
+                    },
+                    getImageSource: (){
+                      return showDialog<ImageSource>(
+                        context: context,
+                        builder: (context){
+                          return SimpleDialog(
+                            children: [
+                              SimpleDialogOption(
+                                child: const Text("Camera"),
+                                onPressed: (){
+                                  Navigator.of(context).pop(ImageSource.camera);
+                                },
+                              ),
+                              SimpleDialogOption(
+                                  child: const Text("Gallery"),
+                                  onPressed: (){
+                                    Navigator.of(context).pop(ImageSource.gallery);
+                                  }),
+                            ],
+                          );
+                        },
+                      ).then((value){
+                        return value?? ImageSource.gallery;
+                      });
+                    },
+                    getPreferredCameraDevice: () {
+                      return showDialog<CameraDevice>(
+                        context: context,
+                        builder: (context) {
+                          return SimpleDialog(
+                            children: [
+                              SimpleDialogOption(
+                                child: const Text("Rear"),
+                                onPressed: () {
+                                  Navigator.of(context).pop(CameraDevice.rear);
+                                },
+                              ),
+                              SimpleDialogOption(
+                                  child: const Text("Front"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(CameraDevice.front);
+                                  }),
+                            ],
+                          );
+                        },
+                      ).then(
+                            (value) {
+                          return value ?? CameraDevice.rear;
+                        },
+                      );
+                    },
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 20),
-            TextField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                labelText: 'Name',
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+              ),
+              width: 80,
+              height: 80,
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Name"),
+                  TextField(
+
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 20),
-            TextField(
-              controller: usernameController,
+            TextFormField(
+              textCapitalization: TextCapitalization.words,
+              controller: nameController,
               decoration: const InputDecoration(
-                labelText: 'Username',
+                  border: UnderlineInputBorder(),
+                  filled: false,
+                  icon: Text("Username"),
               ),
             ),
             const SizedBox(height: 20),

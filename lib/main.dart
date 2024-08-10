@@ -1,5 +1,7 @@
-import 'package:find_in/pages/profile_page.dart';
+import 'package:find_in/pages/login_page.dart';
+import 'package:find_in/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -10,9 +12,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ProfilePage()
+      title: 'Flutter Auth',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => LoginPage(),
+        '/signup': (context) => const SignUpPage(),
+      },
     );
   }
 }

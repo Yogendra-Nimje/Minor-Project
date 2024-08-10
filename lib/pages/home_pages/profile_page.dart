@@ -73,12 +73,6 @@ class _ProfilePageState extends State<ProfilePage> {
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 16),
-            // const Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Text('Complete Your Profile (1/4)'),
-            //   ],
-            // ),
             const SizedBox(height: 8),
             // LinearProgressIndicator(
             //   value: 0.25,
@@ -145,11 +139,11 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           children: [
             Icon(icon, size: 40),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               text,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12),
+              style: const TextStyle(fontSize: 12),
             ),
           ],
         ),
