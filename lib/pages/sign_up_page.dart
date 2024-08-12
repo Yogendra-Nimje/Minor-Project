@@ -22,8 +22,7 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
     )..repeat(reverse: true);
 
     _colorAnimation = ColorTween(
-      begin: Colors.blue,
-      end: Colors.purple,
+      begin: Colors.grey[400],
     ).animate(_controller);
   }
 
@@ -46,27 +45,11 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                 end: Alignment.bottomRight,
                 colors: [
                   _colorAnimation.value!,
-                  Colors.pink,
+                  Colors.white,
                 ],
               ),
             ),
-            child: AnimatedBackground(
-              behaviour: RandomParticleBehaviour(
-                options: const ParticleOptions(
-                  baseColor: Colors.white,
-                  spawnOpacity: 0.0,
-                  opacityChangeRate: 0.25,
-                  minOpacity: 0.1,
-                  maxOpacity: 0.4,
-                  spawnMinSpeed: 30.0,
-                  spawnMaxSpeed: 70.0,
-                  spawnMinRadius: 5.0,
-                  spawnMaxRadius: 15.0,
-                  particleCount: 50,
-                ),
-              ),
-              vsync: this,
-              child: Padding(
+            child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -109,7 +92,6 @@ class _SignUpPageState extends State<SignUpPage> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-            ),
           );
         },
       ),
