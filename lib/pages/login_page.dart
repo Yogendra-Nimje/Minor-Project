@@ -1,5 +1,4 @@
-import 'package:animated_background/animated_background.dart';
-import 'package:find_in/pages/home_pages/home_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,6 +14,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   late Animation<Color?> _colorAnimation;
   bool _obscureText = true;
 
+  //usernamè controller
+  final TextEditingController _usernameController = TextEditingController();
+  bool _notEmpty = false;
+
   @override
   void initState() {
     super.initState();
@@ -27,12 +30,27 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     _colorAnimation = ColorTween(
       begin: Colors.grey[400],
     ).animate(_controller);
+
+    //username field
+    _usernameController.addListener(_updateNotEmpty);
+
   }
 
   @override
   void dispose() {
     _controller.dispose();
+
+    //remove username controller
+
+    _usernameController.removeListener(_updateNotEmpty);
+    _usernameController.dispose();
     super.dispose();
+  }
+
+  void _updateNotEmpty() {
+    setState(() {
+      _notEmpty = _usernameController.text.isNotEmpty;
+    });
   }
 
   @override
@@ -105,7 +123,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             },
                             child: Text("Create New",
                                 style: GoogleFonts.arefRuqaaInk(
-                                  textStyle: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),
+                                  textStyle: const TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),
                                 ),
                             ),
                           ),
@@ -114,11 +132,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       const SizedBox(height: 20.0),
         
                       TextField(
+                        controller: _usernameController,
                         decoration: InputDecoration(
                           hintText: 'User_name',
                           filled: true,
                           fillColor: Colors.grey[200],
-                          suffixIcon: const Icon(Icons.check),
+                          suffixIcon: _notEmpty
+                              ? const Icon(Icons.check, color: Colors.blue)
+                              : const Icon(Icons.check, color: Colors.grey),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none,
@@ -129,6 +150,19 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       TextField(
                         obscureText: _obscureText,
                         decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscureText
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: Colors.grey[300],
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscureText = !_obscureText;
+                                });
+                              },
+                            ),
                           hintText: 'Password',
                           filled: true,
                           fillColor: Colors.grey[200],
@@ -136,18 +170,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none,
                           )
-                                // suffixIcon: IconButton(
-                                //   icon: Icon(
-                                //     _obscureText
-                                //         ? Icons.visibility_off
-                                //         : Icons.visibility,
-                                //   ),
-                                //   onPressed: () {
-                                //     setState(() {
-                                //       _obscureText = !_obscureText;
-                                //     });
-                                //   },
-                                // ),
                         ),
                       ),
                       const SizedBox(height: 20.0),
