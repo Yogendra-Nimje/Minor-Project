@@ -205,11 +205,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
 
                       const SizedBox(height: 20,),
+
                       // Login Now Button
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {},
+
+                          //pressed on login handle
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/homepage');
+                          },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 15.0),
                             backgroundColor: Colors.blueAccent,
@@ -226,7 +231,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       const SizedBox(height: 20.0),
                       // Skip Now Text
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/signup');
+                        },
                         child: const Text(
                           'Sign Up',
                           style: TextStyle(fontSize: 16.0, color: Colors.black),

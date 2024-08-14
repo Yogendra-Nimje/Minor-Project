@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+  SignUpPage({super.key});
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +79,12 @@ class SignUpPage extends StatelessWidget {
 
 
                 const SizedBox(height: 15.0),
-        
+
                 // Username Field
                 TextField(
+                  // controller: _usernamecontroller,
                   decoration: InputDecoration(
-                    icon: Icon(CupertinoIcons.person_alt_circle),
+                    icon: const Icon(CupertinoIcons.person_alt_circle),
                     hintText: 'Username',
                     filled: true,
                     fillColor: Colors.grey[200],
@@ -89,11 +95,11 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 15.0),
-        
+
                 // Email Field
                 TextField(
                   decoration: InputDecoration(
-                    icon: Icon(Icons.email_outlined),
+                    icon: const Icon(Icons.email_outlined),
                     hintText: 'Email',
                     filled: true,
                     fillColor: Colors.grey[200],
@@ -104,12 +110,12 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 15.0),
-        
+
                 // Password Field
                 TextField(
                   obscureText: true,
                   decoration: InputDecoration(
-                    icon: Icon(Icons.lock_outline_rounded),
+                    icon: const Icon(Icons.lock_outline_rounded),
                     hintText: 'Password',
                     filled: true,
                     fillColor: Colors.grey[200],
@@ -120,12 +126,12 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 15.0),
-        
+
                 // Confirm Password Field
                 TextField(
                   obscureText: true,
                   decoration: InputDecoration(
-                    icon: Icon(Icons.lock_outline_rounded),
+                    icon: const Icon(Icons.lock_outline_rounded),
                     hintText: 'Confirm Password',
                     filled: true,
                     fillColor: Colors.grey[200],
@@ -136,14 +142,14 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20.0),
-        
+
                 // Sign Up Button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 15.0),
+                      padding: const EdgeInsets.symmetric(vertical: 15.0),
                       backgroundColor: Colors.yellow[600],
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -156,7 +162,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20.0),
-        
+
                 // Already have an account? Log In
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

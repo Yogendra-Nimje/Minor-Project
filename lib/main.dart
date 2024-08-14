@@ -1,3 +1,4 @@
+import 'package:find_in/pages/home_pages/home_page.dart';
 import 'package:find_in/pages/login_page.dart';
 import 'package:find_in/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const LoginPage(),
-        '/signup': (context) => const SignUpPage(),
+        '/signup': (context) => SignUpPage(),
+        '/homepage':(context) => HomePage(),
       },
     );
   }
