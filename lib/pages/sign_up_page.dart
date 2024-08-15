@@ -10,6 +10,8 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
+  get label => null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +23,7 @@ class SignUpPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
 
-
+                // ElevatedButton.icon(onPressed: (){}, icon: Icon(Icons.sunny), label: null),
                 // "Hey, Sign Up Now!" text
                  Align(
                   alignment: Alignment.centerLeft,

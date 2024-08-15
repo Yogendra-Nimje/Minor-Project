@@ -1,5 +1,9 @@
 // settings_page.dart
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../theme/theme_provide.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -28,15 +32,24 @@ class _SettingsPageState extends State<SettingsPage> {
                 _notificationsEnabled = value;
               });
             },
-            secondary: Icon(Icons.notifications),
+            secondary: const Icon(Icons.notifications),
           ),
+          // const Row(
+          //   children: [
+          //     Text("Enable Dark Mode"),
+          //
+          //     CupertinoSwitch(
+          //         value: Provider.of<ThemeProvider>(context).isDarkMode,
+          //         onChanged:(value)=> Provider.of<ThemeProvider>(context,listen: false).toggleTheme()),
+          //   ],
+          // ),
+          
+
           SwitchListTile(
             title: const Text('Enable Dark Mode'),
-            value: _darkModeEnabled,
-            onChanged: (bool value) {
-              setState(() {
-                _darkModeEnabled = value;
-              });
+            value: Provider.of<ThemeProvider>(context).isDarkMode,
+            onChanged: (value) {
+              Provider.of<ThemeProvider>(context,listen: false).toggleTheme();
             },
             secondary: const Icon(Icons.dark_mode),
           ),

@@ -17,6 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: const Center(
             child: Text("Profile",style: TextStyle(fontWeight: FontWeight.bold),),
