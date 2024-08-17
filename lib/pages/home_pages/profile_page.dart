@@ -11,6 +11,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  //userprofile image
   XFile? profileimage;
   bool allowEdit=false;
 
@@ -29,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
             onSelected: (String result) {
               switch (result) {
                 case 'Edit Profile':
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfilePage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const EditProfilePage()));
                   break;
                 case 'Setting':
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>const SettingsPage()));
