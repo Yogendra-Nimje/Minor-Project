@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.message_outlined),
             activeIcon: Icon(Icons.message),
-            label: 'Messages',
+            label: 'Message',
           ),
           BottomNavigationBarItem(
             activeIcon: Icon(Icons.person),

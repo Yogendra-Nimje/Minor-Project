@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../componants/job_card.dart';
@@ -14,75 +15,91 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              getCurrentDate(), // Display today's date
-              style: const TextStyle(fontSize: 12, color: Colors.grey),
-            ),
-            const Text(
-              "Search, Find, and Apply",
-              style: TextStyle(fontSize: 16, color: Colors.black),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {},
-          ),
-        ],
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: ListView(
+    return ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          // Search Bar
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search for job',
-                prefixIcon: const Icon(Icons.search, color: Colors.green),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                fillColor: Colors.grey[200],
-              ),
-            ),
-          ),
 
           // Prepare for your job search
-          Card(
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: ListTile(
-              contentPadding: const EdgeInsets.all(16.0),
-              title: const Text('Prepare for your job search'),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          // Card(
+          //   elevation: 2,
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(12),
+          //   ),
+          //   child: ListTile(
+          //
+          //     contentPadding: const EdgeInsets.all(16.0),
+          //     title: const Text('Prepare for your job search'),
+          //     subtitle: Column(
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         const SizedBox(height: 4.0),
+          //         const Text('Add additional details from your profile any time.'),
+          //         const SizedBox(height: 8.0),
+          //         LinearProgressIndicator(
+          //           value: 0.5,
+          //           backgroundColor: Colors.grey[300],
+          //           color: Colors.green,
+          //         ),
+          //         const SizedBox(height: 4.0),
+          //         const Text('2/4 Complete'),
+          //       ],
+          //     ),
+          //     trailing: const Icon(Icons.more_vert),
+          //   ),
+          // ),
+          Row(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(height: 4.0),
-                  const Text('Add additional details from your profile any time.'),
-                  const SizedBox(height: 8.0),
-                  LinearProgressIndicator(
-                    value: 0.5,
-                    backgroundColor: Colors.grey[300],
-                    color: Colors.green,
+                  Text(
+                    getCurrentDate(), // Display today's date
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
                   ),
-                  const SizedBox(height: 4.0),
-                  const Text('2/4 Complete'),
+                  const Text(
+                    "Search, Find, and Apply",
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                  ),
                 ],
               ),
-              trailing: const Icon(Icons.more_vert),
+              const Expanded(child: Icon(CupertinoIcons.bell))
+            ],
+          ),
+          // Search Bar
+          Padding(
+            padding:  EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: SizedBox(
+                          height: 30,
+                          child: Icon(Icons.search,color: Colors.grey[700],),
+                  
+                        ),
+                        ),
+                        const Expanded(
+                            child: TextField(
+                              decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "search for job..",
+                          ),
+                        ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
 
@@ -111,7 +128,6 @@ class HomeScreen extends StatelessWidget {
             logoAsset: 'lib/assets/icon_chat.png', // path of image path
           ),
         ],
-      ),
     );
   }
 }
