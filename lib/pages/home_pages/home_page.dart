@@ -16,8 +16,8 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     const HomeScreen(),
-    AppliedScreen(),
-    MessagesScreen(),
+    const AppliedScreen(),
+    const MessagesScreen(),
     const ProfilePage(),
   ];
 
@@ -66,6 +66,8 @@ class _HomePageState extends State<HomePage> {
 
 
 class AppliedScreen extends StatelessWidget {
+  const AppliedScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Center(
@@ -75,6 +77,8 @@ class AppliedScreen extends StatelessWidget {
 }
 
 class MessagesScreen extends StatelessWidget {
+  const MessagesScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Center(
