@@ -86,9 +86,10 @@ class HomeScreen extends StatelessWidget {
                   
                         ),
                         ),
-                        const Expanded(
+                        Expanded(
                             child: TextField(
                               decoration: InputDecoration(
+                              fillColor: Theme.of(context).colorScheme.inversePrimary,
                               border: InputBorder.none,
                               hintText: "search for job..",
                           ),
