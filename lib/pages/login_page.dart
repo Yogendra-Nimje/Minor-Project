@@ -97,6 +97,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         ),
                       ),
 
+                    // find in app logo
+                    // Center(
+                    //   child: Text("Find.in",style: GoogleFonts.acme(textStyle: const TextStyle(fontSize: 40,color: Colors.green))),
+                    // ),
+
                     const Padding(padding: EdgeInsets.symmetric(vertical: 50)),
                     // "Hey, Login Now!" text
                      Align(
@@ -232,7 +237,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 15.0),
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: Colors.green,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
