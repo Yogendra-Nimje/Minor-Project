@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       theme: Provider.of<ThemeProvider>(context).themeData,
       initialRoute: '/',
       routes: {
-        '/': (context) => const OnboardingScreen(),
+        '/': (context) => OnboardingScreen(),
         '/signup': (context) => SignUpPage(),
         '/homepage':(context) => const HomePage(),
       },
