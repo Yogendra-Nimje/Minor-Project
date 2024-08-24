@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             Navigator.pushNamed(context, '/signup');
                           },
                           child: Text("Create New",
-                              style: GoogleFonts.abhayaLibre(
+                              style: GoogleFonts.aboreto(
                                 textStyle: const TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),
                               ),
                           ),
@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     TextField(
                       controller: _usernameController,
                       decoration: InputDecoration(
-                        hintText: 'User_name',
+                        hintText: 'User Name',
                         hintStyle:  TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
                         filled: true,
                         fillColor:Theme.of(context).colorScheme.primary,
@@ -160,7 +160,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 25),
                     TextField(
                       controller: _passwordController,
                       obscureText: _obscureText,
@@ -231,34 +231,58 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       width: double.infinity,
                       child: ElevatedButton(
 
-                        //pressed on login handle
+                        //pressed on to home Page
                         onPressed: () {
                           Navigator.pushNamed(context, '/homepage');
                         },
                         style: ElevatedButton.styleFrom(
+                          elevation: 5,
                           padding: const EdgeInsets.symmetric(vertical: 15.0),
-                          backgroundColor: Colors.green,
+                          backgroundColor: Colors.green[500],
+                          shadowColor: Colors.grey[400],
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Login Now',
-                          style: TextStyle(fontSize: 18.0,color: Colors.white),
+                          style: TextStyle(fontSize: 18.0,color: Colors.grey[100]),
                         ),
                       ),
                     ),
                     const SizedBox(height: 20.0),
-                    // Skip Now Text
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/signup');
-                      },
-                      child: const Text(
-                        'Sign Up',
-                        style: TextStyle(fontSize: 16.0),
+                    const Center(
+                      child: Text(
+                        "Or"
                       ),
                     ),
+                    const SizedBox(height: 20.0),
+              ElevatedButton(
+                onPressed: (){},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  onPrimary: Colors.black,
+                  padding: const EdgeInsets.symmetric( vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.grey.shade400),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'lib/assets/google.png', // Add a Google logo in your assets
+                      height: 24.0,
+                    ),
+                    const SizedBox(width: 12.0),
+                    const Text(
+                      'Sign in with Google',
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                  ],
+                ),
+              ),
                   ],
                 ),
               );
