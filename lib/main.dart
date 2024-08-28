@@ -1,8 +1,8 @@
 
 
 import 'package:find_in/pages/home_pages/home_page.dart';
-import 'package:find_in/pages/login_page.dart';
-import 'package:find_in/pages/sign_up_page.dart';
+import 'package:find_in/pages/login_pages/login_page.dart';
+import 'package:find_in/pages/login_pages/sign_up_page.dart';
 import 'package:find_in/pages/splash_screen.dart';
 import 'package:find_in/theme/theme_provide.dart';
 import 'package:flutter/material.dart';
