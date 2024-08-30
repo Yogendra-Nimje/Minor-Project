@@ -1,3 +1,4 @@
+import 'package:find_in/pages/login_pages/otp_verify_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -87,9 +88,25 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                       ),
                       FadeInAnimation(
                         delay: 2.1,
-                        child: Container(
-
-                        )
+                        child: ElevatedButton(
+                          //pressed on to otp page
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>const OtpVerifyPage()));
+                            },
+                            style: ButtonStyle(
+                                side: const MaterialStatePropertyAll(BorderSide(color: Colors.grey)),
+                                shape: MaterialStatePropertyAll(
+                                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                                fixedSize: const MaterialStatePropertyAll(Size.fromWidth(370)),
+                                padding: const MaterialStatePropertyAll(
+                                  EdgeInsets.symmetric(vertical: 20),
+                                ),
+                                backgroundColor: const MaterialStatePropertyAll(Colors.green)),
+                            child: Text(
+                              'Send Code',
+                              style: TextStyle(fontSize: 18.0,color: Colors.grey[100]),
+                            ),
+                        ),
                       ),
                     ],
                   ),
@@ -111,7 +128,8 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                       ),
                       TextButton(
                           onPressed: () {
-                            // goto otp Page
+                            // goto sign up page
+                            Navigator.pushNamed(context, '/signup');
                           },
                           child: Text(
                             "Register Now",
