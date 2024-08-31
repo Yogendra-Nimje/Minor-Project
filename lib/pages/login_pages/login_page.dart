@@ -218,7 +218,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             ),
                           ),
                           const Text(
-                            '/',
+                            '/ ',
                             style: TextStyle(fontSize: 16.0),
                           ),
                           GestureDetector(
