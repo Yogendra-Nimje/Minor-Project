@@ -1,3 +1,4 @@
+import 'package:find_in/pages/login_pages/change_password.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
@@ -50,11 +51,11 @@ class _OtpVerifyPageState extends State<OtpVerifyPage> {
                     onPressed: (){
                       Navigator.pop(context);
                     },
-                    icon: const Icon(CupertinoIcons.back,size: 40,),
+                    icon: const Icon(CupertinoIcons.back,size: 35,),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -110,6 +111,8 @@ class _OtpVerifyPageState extends State<OtpVerifyPage> {
                               child: ElevatedButton(
                                 onPressed: () {
                                  // navigate to change password
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePassword()));
+
                                 },
                                 style: ButtonStyle(
                                     side: const MaterialStatePropertyAll(BorderSide(color: Colors.grey)),
@@ -129,38 +132,41 @@ class _OtpVerifyPageState extends State<OtpVerifyPage> {
                           ],
                         ),
                       ),
-                    const Spacer(),
-                    FadeInAnimation(
-                      delay: 2.4,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 50),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Don’t have an account?",
-                              style: TextStyle(
-                                  color: Colors.grey
-                              ),
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  // goto sign up page
-                                  Navigator.pushNamed(context, '/signup');
-                                },
-                                child: Text(
-                                  "Register Now",
-                                  style: TextStyle(
-                                      color: Colors.green[400]
-                                  ),
-                                )),
-                          ],
-                        ),
-                      ),
-                    )
+                    // const Spacer(),
+                    // FadeInAnimation(
+                    //   delay: 2.4,
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(left: 50),
+                    //     child: Row(
+                    //       crossAxisAlignment: CrossAxisAlignment.center,
+                    //       children: [
+                    //         const Text(
+                    //           "Don’t have an account?",
+                    //           style: TextStyle(
+                    //               color: Colors.grey
+                    //           ),
+                    //         ),
+                    //         TextButton(
+                    //             onPressed: () {
+                    //               // goto sign up page
+                    //               Navigator.pushNamed(context, '/signup');
+                    //             },
+                    //             child: Text(
+                    //               "Register Now",
+                    //               style: TextStyle(
+                    //                   color: Colors.green[400]
+                    //               ),
+                    //             ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               ),
+
+
             ],
             ),
           ),

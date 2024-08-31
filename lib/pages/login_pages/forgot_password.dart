@@ -48,7 +48,6 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                           fontFamily: "Urbanist",
                           fontWeight: FontWeight.bold,
                         ),
-                        // style: Common().titelTheme,
                       ),
                     ),
                     FadeInAnimation(
@@ -75,14 +74,20 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                         delay: 1.9,
                         child: TextFormField(
                           decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(18),
-                              border: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: Colors.green),
-                                  borderRadius: BorderRadius.circular(12)),
-                              hintText: "Enter your email",
-                              ),
-                        ),
-                      ),
+                            contentPadding: const EdgeInsets.all(18),
+                            hintText: "Enter your email",
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey.shade800),
+                                borderRadius: BorderRadius.circular(12),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:  BorderSide(color: Colors.green.shade700),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        )
+
+                       ),
                       const SizedBox(
                         height: 30,
                       ),
