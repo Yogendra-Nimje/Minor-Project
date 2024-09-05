@@ -1,5 +1,5 @@
 // settings_page.dart
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -54,8 +54,8 @@ class _SettingsPageState extends State<SettingsPage> {
             secondary: const Icon(Icons.dark_mode),
           ),
           ListTile(
-            leading: Icon(Icons.lock),
-            title: Text('Change Password'),
+            leading: const Icon(Icons.lock),
+            title: const Text('Change Password'),
             onTap: () {
               // Navigate to change password page
             },
@@ -68,8 +68,8 @@ class _SettingsPageState extends State<SettingsPage> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.help),
-            title: Text('Help & Support'),
+            leading: const Icon(Icons.help),
+            title: const Text('Help & Support'),
             onTap: () {
               // Navigate to help & support page
             },

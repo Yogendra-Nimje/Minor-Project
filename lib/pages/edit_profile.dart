@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_input/image_input.dart';
 
@@ -26,14 +27,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
         actions: const [
           Row(
               children: [
-                Text("Save ",style: TextStyle(fontWeight:FontWeight.bold),),
-                Icon(Icons.save_alt,color: Colors.blue,)
+                Icon(Icons.remove_red_eye_outlined),
+                Icon(CupertinoIcons.lightbulb),
               ],
             ),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding:  EdgeInsets.all(16.0),
         child: ListView(
           children: [
             Center(
@@ -134,26 +135,36 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
               width: 80,
               height: 80,
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("Name"),
-                  TextField(
-
+                  RichText(
+                    text: const TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'First Name ',
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                        TextSpan(
+                          text: '*',
+                          style: TextStyle(color: Colors.red, fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "First Name",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12))
+                      )
+                    ),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 20),
-            TextFormField(
-              textCapitalization: TextCapitalization.words,
-              controller: nameController,
-              decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  filled: false,
-                  icon: Text("Username"),
-              ),
-            ),
+            CustomTextField(hinttext: "username", labeltext: "Username", controller: usernameController),
             const SizedBox(height: 20),
             TextField(
               controller: pronounsController,
@@ -197,6 +208,60 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CustomTextField extends StatefulWidget {
+
+  final String labeltext;
+  final String hinttext;
+  final TextEditingController? controller;
+
+  const CustomTextField({
+    super.key,
+    required this.hinttext,
+    required this.labeltext,
+    required this.controller
+  });
+
+  @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: widget.labeltext,
+                style: const TextStyle(fontSize: 16),
+              ),
+              const TextSpan(
+                text: '*',
+                style: TextStyle(color: Colors.red, fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+        TextFormField(
+          controller: widget.controller,
+          decoration: InputDecoration(
+              hintText: widget.hinttext,
+              border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12))
+              )
+          ),
+        )
+      ],
+
     );
   }
 }

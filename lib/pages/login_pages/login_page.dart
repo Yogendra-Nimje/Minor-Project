@@ -99,12 +99,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         ),
                       ),
 
-                    // find in app logo
-                    // Center(
-                    //   child: Text("Find.in",style: GoogleFonts.acme(textStyle: const TextStyle(fontSize: 40,color: Colors.green))),
-                    // ),
+                          // 'find.in' app logo
+                           Center(
+                                child: Text("Find.in",style: GoogleFonts.baskervville(textStyle: const TextStyle(fontSize: 40,color: Colors.green))),
+                              ),
 
-                    const Padding(padding: EdgeInsets.symmetric(vertical: 50)),
+                     const Padding(padding: EdgeInsets.symmetric(vertical: 50)),
                      FadeInAnimation(
                        delay: 1,
                        child: Align(
@@ -159,7 +159,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           hintText: 'User Name',
                           hintStyle:  TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
                           filled: true,
-                          fillColor:Theme.of(context).colorScheme.primary,
+                          // fillColor:Theme.of(context).colorScheme.primary,
                           suffixIcon: _notEmpty
                               ? const Icon(Icons.check, color: Colors.blue)
                               : const Icon(Icons.check),
@@ -192,7 +192,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           hintText: 'Password',
                           hintStyle:  TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
                           filled: true,
-                          fillColor: Theme.of(context).colorScheme.primary,
+                          // fillColor: Theme.of(context).colorScheme.primary,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none,

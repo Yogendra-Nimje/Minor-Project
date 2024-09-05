@@ -1,164 +1,134 @@
-import 'package:find_in/pages/edit_profile.dart';
-import 'package:find_in/pages/settting_page.dart';
 import 'package:flutter/material.dart';
-import 'package:image_input/image_input.dart';
+import 'package:provider/provider.dart';
 
-class ProfilePage extends StatefulWidget {
+import '../../theme/theme_provide.dart';
+
+class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-
-  //userprofile image
-  XFile? profileimage;
-  bool allowEdit=false;
-
-  @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        title: const Center(
-            child: Text("Profile",style: TextStyle(fontWeight: FontWeight.bold),),
-        ),
-        elevation: 0,
-        actions: [
-          PopupMenuButton(
-            surfaceTintColor: Colors.white,
-            onSelected: (String result) {
-              switch (result) {
-                case 'Edit Profile':
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const EditProfilePage()));
-                  break;
-                case 'Setting':
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>const SettingsPage()));
-                  break;
-                case 'About':
-                // Handle Option 3
-                  break;
-              }
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                const PopupMenuItem<String>(
-                  value: 'Edit Profile',
-                  child: Text('Edit Profile',style: TextStyle(fontWeight: FontWeight.bold),),
-                ),
-                const PopupMenuItem<String>(
-                  value: 'Setting',
-                  child: Text('Setting',style: TextStyle(fontWeight: FontWeight.bold),),
-                ),
-                const PopupMenuItem<String>(
-                  value: 'About',
-                  child: Text('About',style: TextStyle(fontWeight: FontWeight.bold),),
-                ),
-            ],
-          ),
-        ],
-      ),
+    return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage('lib/assets/img.jpg'), // Add your profile image here
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Yogendra Nimje',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            const Text(
-              'Sr. Flutter Developer',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-            const SizedBox(height: 16),
-            const SizedBox(height: 8),
-            // LinearProgressIndicator(
-            //   value: 0.25,
-            //   backgroundColor: Colors.grey[300],
-            //   color: Colors.orange,
-            // ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildProfileOption(
-                  icon: Icons.person,
-                  text: 'Set Your Profile Details',
-                  onTap: () {},
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: <Widget>[
+                    const CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage('assets/profile_pic.jpg'),
+                    ),
+                    SizedBox(height: 16),
+                    const Text(
+                      'Coffee stories',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'mark.brock@icloud.com',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.blue,
+                        onPrimary: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                        textStyle: TextStyle(fontSize: 16),
+                      ),
+                      child: Text('Edit Profile'),
+                    ),
+                  ],
                 ),
-                _buildProfileOption(
-                  icon: Icons.upload_file,
-                  text: 'Upload Your Resume',
-                  onTap: () {},
-                ),
-                _buildProfileOption(
-                  icon: Icons.edit,
-                  text: 'Write Your Bio',
-                  onTap: () {},
-                ),
-              ],
+              ),
             ),
-            const SizedBox(height: 16),
-            _buildListTile(
-              icon: Icons.settings,
-              text: 'Setting',
-              onTap: () {
-                MaterialPageRoute(builder: (context)=>const SettingsPage());
-              },
-            ),
-            _buildListTile(
-              icon: Icons.help,
-              text: 'Help & Feedback',
-              onTap: () {},
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 32),
+                  const Text(
+                    'Inventories',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ListTile(
+                    leading: const Icon(Icons.home, color: Colors.black),
+                    title: const Text('My stores'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.support_agent, color: Colors.black),
+                    title: Text('Support'),
+                    trailing: Icon(Icons.chevron_right),
+                    onTap: () {},
+                  ),
+                  SizedBox(height: 32),
+                  const Text(
+                    'Preferences',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  SwitchListTile(
+                    title: const Text('Push notifications'),
+                    value: true,
+                    onChanged: (value) {},
+                  ),
+                  SwitchListTile(
+                    title: const Text('Face ID'),
+                    value: true,
+                    onChanged: (value) {},
+                  ),
+                  SwitchListTile(
+                    title: const Text("Dark Mode"),
+                    value: Provider.of<ThemeProvider>(context).isDarkMode,
+                    onChanged:(value) {
+                      Provider.of<ThemeProvider>(context,listen: false).toggleTheme();
+                    },
+                    secondary: const Icon(Icons.dark_mode),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.pin),
+                    title: const Text('PIN Code'),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    onTap: () {},
+                  ),
+                  SizedBox(height: 32),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                      onPrimary: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                      textStyle: TextStyle(fontSize: 16),
+                    ),
+                    child: Text('Logout'),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildProfileOption({required IconData icon, required String text, required VoidCallback onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 100,
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 2,
-              blurRadius: 5,
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Icon(icon, size: 40),
-            const SizedBox(height: 8),
-            Text(
-              text,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildListTile({required IconData icon, required String text, required VoidCallback onTap}) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(text),
-      onTap: onTap,
     );
   }
 }

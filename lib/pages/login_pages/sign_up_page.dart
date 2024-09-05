@@ -23,6 +23,12 @@ class SignUpPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
 
+
+                Center(
+                  child:  Center(
+                      child: Text("Find.in",style: GoogleFonts.baskervville(textStyle: const TextStyle(fontSize: 60,color: Colors.green))),
+                    ),
+                  ),
                 // ElevatedButton.icon(onPressed: (){}, icon: Icon(Icons.sunny), label: null),
                 // "Hey, Sign Up Now!" text
                  Align(
@@ -31,7 +37,7 @@ class SignUpPage extends StatelessWidget {
                     'Hey,\nSign Up Now!',
                     style: GoogleFonts.baskervville(
                       textStyle: const TextStyle(
-                        fontSize: 28.0,
+                        fontSize: 35.0,
                         fontWeight: FontWeight.bold,
                       ),
                     )
@@ -50,7 +56,6 @@ class SignUpPage extends StatelessWidget {
                           icon: const Icon(Icons.perm_identity_rounded),
                           hintText: 'First Name',
                           filled: true,
-                          fillColor: Colors.grey[200],
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none,
@@ -65,10 +70,9 @@ class SignUpPage extends StatelessWidget {
                       child: TextField(
                         maxLines: 1,
                         decoration: InputDecoration(
-                          icon: const Icon(Icons.perm_identity_rounded),
                           hintText: 'Last Name',
                           filled: true,
-                          fillColor: Colors.grey[200],
+
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none,
@@ -84,12 +88,11 @@ class SignUpPage extends StatelessWidget {
 
                 // Username Field
                 TextField(
-                  // controller: _usernamecontroller,
+                   controller: _usernameController,
                   decoration: InputDecoration(
                     icon: const Icon(CupertinoIcons.person_alt_circle),
                     hintText: 'Username',
                     filled: true,
-                    fillColor: Colors.grey[200],
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide.none,
@@ -104,7 +107,6 @@ class SignUpPage extends StatelessWidget {
                     icon: const Icon(Icons.email_outlined),
                     hintText: 'Email',
                     filled: true,
-                    fillColor: Colors.grey[200],
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide.none,
@@ -120,7 +122,6 @@ class SignUpPage extends StatelessWidget {
                     icon: const Icon(Icons.lock_outline_rounded),
                     hintText: 'Password',
                     filled: true,
-                    fillColor: Colors.grey[200],
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide.none,
@@ -136,7 +137,6 @@ class SignUpPage extends StatelessWidget {
                     icon: const Icon(Icons.lock_outline_rounded),
                     hintText: 'Confirm Password',
                     filled: true,
-                    fillColor: Colors.grey[200],
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide.none,
@@ -152,14 +152,14 @@ class SignUpPage extends StatelessWidget {
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 15.0),
-                      backgroundColor: Colors.yellow[600],
+                      backgroundColor: Colors.green[600],
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
                     child: const Text(
                       'Sign Up Now',
-                      style: TextStyle(fontSize: 18.0, color: Colors.black),
+                      style: TextStyle(fontSize: 18.0),
                     ),
                   ),
                 ),
@@ -179,7 +179,7 @@ class SignUpPage extends StatelessWidget {
                       },
                       child: Text(
                         'Log In',
-                        style: TextStyle(fontSize: 16.0, color: Colors.grey[700]),
+                        style: TextStyle(fontSize: 16.0, color: Colors.green[700]),
                       ),
                     ),
                   ],
