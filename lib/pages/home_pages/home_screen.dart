@@ -19,34 +19,6 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         children: [
 
-          // Prepare for your job search
-          // Card(
-          //   elevation: 2,
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(12),
-          //   ),
-          //   child: ListTile(
-          //
-          //     contentPadding: const EdgeInsets.all(16.0),
-          //     title: const Text('Prepare for your job search'),
-          //     subtitle: Column(
-          //       crossAxisAlignment: CrossAxisAlignment.start,
-          //       children: [
-          //         const SizedBox(height: 4.0),
-          //         const Text('Add additional details from your profile any time.'),
-          //         const SizedBox(height: 8.0),
-          //         LinearProgressIndicator(
-          //           value: 0.5,
-          //           backgroundColor: Colors.grey[300],
-          //           color: Colors.green,
-          //         ),
-          //         const SizedBox(height: 4.0),
-          //         const Text('2/4 Complete'),
-          //       ],
-          //     ),
-          //     trailing: const Icon(Icons.more_vert),
-          //   ),
-          // ),
           Row(
             children: [
               Column(
@@ -67,35 +39,51 @@ class HomeScreen extends StatelessWidget {
           ),
           // Search Bar
           Padding(
-            padding:  EdgeInsets.all(8.0),
+            padding:  const EdgeInsets.all(8.0),
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
+                  child:Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(24),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
                     ),
                     child: Row(
                       children: [
-                        Padding(padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: SizedBox(
-                          height: 30,
-                          child: Icon(Icons.search,color: Colors.grey[700],),
-                  
-                        ),
-                        ),
-                        Expanded(
+                        const Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
                             child: TextField(
                               decoration: InputDecoration(
-                              fillColor: Theme.of(context).colorScheme.inversePrimary,
-                              border: InputBorder.none,
-                              hintText: "search for job..",
+                                hintText: 'Search for job',
+                                border: InputBorder.none,
+                              ),
+                            ),
                           ),
                         ),
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: const BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(24),
+                              bottomRight: Radius.circular(24),
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.search,
+                            color: Colors.white,
+                          ),
                         ),
-
                       ],
                     ),
                   ),

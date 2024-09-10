@@ -1,3 +1,4 @@
+import 'package:find_in/pages/home_pages/applied_screen.dart';
 import 'package:find_in/pages/home_pages/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -64,17 +65,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-
-class AppliedScreen extends StatelessWidget {
-  const AppliedScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Applied Screen', style: TextStyle(fontSize: 24)),
-    );
-  }
-}
 
 class MessagesScreen extends StatelessWidget {
   const MessagesScreen({super.key});
