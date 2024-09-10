@@ -1,3 +1,5 @@
+import 'package:find_in/pages/edit_profile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,11 +22,11 @@ class ProfilePage extends StatelessWidget {
                   children: <Widget>[
                     const CircleAvatar(
                       radius: 30,
-                      backgroundImage: AssetImage('assets/profile_pic.jpg'),
+                      backgroundImage: AssetImage('lib/assets/img.jpg'),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     const Text(
-                      'Coffee stories',
+                      'User Name',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -32,22 +34,28 @@ class ProfilePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'mark.brock@icloud.com',
+                      'User.Name@icloud.com',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context)=>const EditProfilePage()),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
+                        primary: Theme.of(context).colorScheme.inversePrimary,
                         onPrimary: Colors.white,
-                        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                        textStyle: TextStyle(fontSize: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                        textStyle: const TextStyle(fontSize: 16),
                       ),
-                      child: Text('Edit Profile'),
+                      child: Text('Edit Profile',style: TextStyle(color: Theme.of(context).colorScheme.secondary),),
                     ),
                   ],
                 ),
@@ -67,61 +75,87 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  ListTile(
-                    leading: const Icon(Icons.home, color: Colors.black),
-                    title: const Text('My stores'),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () {},
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.grey[400]
+                    ),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.home),
+                          title: const Text('My stores'),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () {},
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.support_agent),
+                          title: const Text('Support'),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () {},
+                        ),
+
+                      ],
+                    ),
                   ),
-                  ListTile(
-                    leading: Icon(Icons.support_agent, color: Colors.black),
-                    title: Text('Support'),
-                    trailing: Icon(Icons.chevron_right),
-                    onTap: () {},
-                  ),
-                  SizedBox(height: 32),
+
+                  const SizedBox(height: 32),
                   const Text(
                     'Preferences',
                     style: TextStyle(
                       fontSize: 16,
+                      fontFamily: "Urbanist-Bold",
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 16),
-                  SwitchListTile(
-                    title: const Text('Push notifications'),
-                    value: true,
-                    onChanged: (value) {},
-                  ),
-                  SwitchListTile(
-                    title: const Text('Face ID'),
-                    value: true,
-                    onChanged: (value) {},
-                  ),
-                  SwitchListTile(
-                    title: const Text("Dark Mode"),
-                    value: Provider.of<ThemeProvider>(context).isDarkMode,
-                    onChanged:(value) {
-                      Provider.of<ThemeProvider>(context,listen: false).toggleTheme();
-                    },
-                    secondary: const Icon(Icons.dark_mode),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.pin),
-                    title: const Text('PIN Code'),
-                    trailing: const Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
-                  ),
-                  SizedBox(height: 32),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
-                      onPrimary: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                      textStyle: TextStyle(fontSize: 16),
+                  const SizedBox(height: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey[400]
                     ),
-                    child: Text('Logout'),
+                    child: Column(
+                      children: [
+                        SwitchListTile(
+                          title: const Text('Push notifications'),
+                          value: true,
+                          onChanged: (value) {},
+                          secondary: const Icon(Icons.notifications_none_outlined),
+                        ),
+                        SwitchListTile(
+                          title: const Text('Face ID'),
+                          value: true,
+                          onChanged: (value) {},
+                        ),
+                        SwitchListTile(
+                          title: const Text("Dark Mode"),
+                          value: Provider.of<ThemeProvider>(context).isDarkMode,
+                          onChanged:(value) {
+                            Provider.of<ThemeProvider>(context,listen: false).toggleTheme();
+                          },
+                          secondary: const Icon(Icons.dark_mode),
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.password),
+                          title: const Text('PIN Code'),
+                          trailing: const Icon(Icons.arrow_forward_ios),
+                          onTap: () {},
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.settings),
+                          title: const Text('Setting'),
+                          trailing: const Icon(Icons.arrow_forward_ios),
+                          onTap: () {},
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.logout),
+                          title: const Text('Logout',style: TextStyle(color: Colors.red),),
+                          trailing: const Icon(Icons.arrow_forward_ios),
+                          onTap: () {},
+                        ),
+
+                      ],
+                    ),
                   ),
                 ],
               ),
