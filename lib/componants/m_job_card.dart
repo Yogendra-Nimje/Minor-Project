@@ -75,7 +75,7 @@ class JobCard extends StatelessWidget {
               onPressed: () {},
               child: Text(status,style: TextStyle(fontWeight: FontWeight.bold),),
               style: ElevatedButton.styleFrom(
-                backgroundColor: status == "Sent" ? Colors.green[100] : status == "Pending" ? Colors.orange[100] : Colors.red[100],
+                backgroundColor: status == "Sent" ? Colors.green[50] : status == "Pending" ? Colors.orange[50] : Colors.red[50],
                 foregroundColor: status == "Sent" ? Colors.green : status == "Pending" ? Colors.orange : Colors.red,
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
                 shape: RoundedRectangleBorder(
