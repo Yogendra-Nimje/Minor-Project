@@ -39,15 +39,14 @@ class HomeScreen extends StatelessWidget {
           ),
           // Search Bar
           Padding(
-            padding:  const EdgeInsets.all(8.0),
+            padding:  const EdgeInsets.symmetric(vertical: 8.0,horizontal: 6),
             child: Row(
               children: [
                 Expanded(
                   child:Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.2),
@@ -61,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         const Expanded(
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            padding: EdgeInsets.symmetric(horizontal: 18),
                             child: TextField(
                               decoration: InputDecoration(
                                 hintText: 'Search for job',
@@ -75,8 +74,8 @@ class HomeScreen extends StatelessWidget {
                           decoration: const BoxDecoration(
                             color: Colors.green,
                             borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(24),
-                              bottomRight: Radius.circular(24),
+                              topRight: Radius.circular(16),
+                              bottomRight: Radius.circular(16),
                             ),
                           ),
                           child: const Icon(

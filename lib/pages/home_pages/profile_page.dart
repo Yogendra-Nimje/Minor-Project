@@ -1,4 +1,5 @@
 import 'package:find_in/pages/edit_profile.dart';
+import 'package:find_in/pages/editprofile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +47,7 @@ class ProfilePage extends StatelessWidget {
 
                         Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context)=>const EditProfilePage()),
+                            MaterialPageRoute(builder: (context)=> EProfilePage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(

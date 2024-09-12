@@ -21,7 +21,7 @@ class JobCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(18.0),
         child: Row(
           children: [
             Image.asset(
@@ -29,41 +29,58 @@ class JobCard extends StatelessWidget {
               height: 40.0,
               width: 40.0,
             ),
-            SizedBox(width: 16.0),
+            const SizedBox(width: 18.0),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     jobTitle,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16.0,
                     ),
                   ),
-                  SizedBox(height: 4.0),
-                  Text(
-                    companyName,
-                    style: TextStyle(
-                      fontSize: 14.0,
-                    ),
+                  const SizedBox(height: 8.0),
+                  Row(
+                    children: [
+                      const Icon(Icons.location_city,color: Colors.grey,),
+                      const SizedBox(width: 5,),
+                      Text(
+                        companyName,
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 4.0),
-                  Text(
-                    timeAgo,
-                    style: TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.grey,
-                    ),
+                  const SizedBox(height: 8.0),
+                  Row(
+                    children: [
+                      const Icon(Icons.query_builder,color: Colors.grey),
+                      const SizedBox(width: 5,),
+                      Text(
+                        timeAgo,
+                        style: const TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
             ElevatedButton(
               onPressed: () {},
-              child: Text(status),
+              child: Text(status,style: TextStyle(fontWeight: FontWeight.bold),),
               style: ElevatedButton.styleFrom(
-                primary: status == "Sent" ? Colors.green : status == "Pending" ? Colors.orange : Colors.red,
+                backgroundColor: status == "Sent" ? Colors.green[100] : status == "Pending" ? Colors.orange[100] : Colors.red[100],
+                foregroundColor: status == "Sent" ? Colors.green : status == "Pending" ? Colors.orange : Colors.red,
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
             ),
           ],
