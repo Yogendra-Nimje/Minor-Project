@@ -67,23 +67,6 @@ class ChangePassword extends StatelessWidget {
                     child:  Form(
                         child: Column(
                           children: <Widget>[
-                            FadeInAnimation(
-                                delay: 1.9,
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.all(18),
-                                    hintText: "Enter your old password",
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.grey.shade800),
-                                        borderRadius: BorderRadius.circular(12)),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide:  BorderSide(color: Colors.green.shade700),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                ),
-                            ),
-                            const SizedBox(height: 20,),
                             //new password field
                             FadeInAnimation(
                               delay: 2.1,

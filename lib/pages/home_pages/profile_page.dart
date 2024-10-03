@@ -1,13 +1,75 @@
 import 'package:find_in/pages/edit_profile.dart';
 import 'package:find_in/pages/editprofile.dart';
+import 'package:find_in/user_state.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../theme/theme_provide.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+
+  void _logout(context) {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+
+    showDialog(
+      context: context,
+      builder: (context){
+        return AlertDialog(
+          backgroundColor: Colors.grey[500],
+          title: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.logout,
+                  color: Colors.black,
+                  size: 36,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  "Sign out",
+                  style: TextStyle(color: Colors.white, fontSize: 28,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            "Do you want to Log Out?",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+          actions: [
+            TextButton(onPressed: (){
+              Navigator.canPop(context) ? Navigator.pop(context) : null;
+            },
+                child: Text("NO", style: TextStyle(color: Colors.black, fontSize: 18)),
+            ),
+            TextButton(onPressed: (){
+              _auth.signOut();
+              Navigator.canPop(context) ? Navigator.pop(context) : null;
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => UserState()));
+            },
+                child: Text("YES", style: TextStyle(color: Colors.black, fontSize: 18)),
+            ),
+          ],
+        );
+      }
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +113,8 @@ class ProfilePage extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).colorScheme.inversePrimary,
-                        onPrimary: Colors.white,
+                        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                        foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                         textStyle: const TextStyle(fontSize: 16),
                       ),
@@ -152,7 +214,9 @@ class ProfilePage extends StatelessWidget {
                           leading: const Icon(Icons.logout),
                           title: const Text('Logout',style: TextStyle(color: Colors.red),),
                           trailing: const Icon(Icons.arrow_forward_ios),
-                          onTap: () {},
+                          onTap: () {
+                            _logout(context);
+                          },
                         ),
 
                       ],

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../componants/fade_animetion.dart';
 
-
-
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
 
@@ -143,7 +141,7 @@ class OnboardingScreen extends StatelessWidget {
                      padding: const EdgeInsets.all(18.0),
                      child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.green.shade800,
+                          backgroundColor: Colors.green.shade800,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
