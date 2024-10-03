@@ -14,14 +14,14 @@ class UploadJobScreen extends StatefulWidget {
 
 class _UploadJobScreenState extends State<UploadJobScreen> {
 
-  TextEditingController _jobCategoryController = TextEditingController(text: "Select Job Category");
-  TextEditingController _jobTitleController = TextEditingController();
-  TextEditingController _jobDescriptionController = TextEditingController();
-  TextEditingController _jobDeadLineDateController = TextEditingController();
+  final TextEditingController _jobCategoryController = TextEditingController(text: "Select Job Category");
+  final TextEditingController _jobTitleController = TextEditingController();
+  final TextEditingController _jobDescriptionController = TextEditingController();
+  final TextEditingController _jobDeadLineDateController = TextEditingController(text: "Job DeadLine Date");
 
   final _formKey = GlobalKey<FormState>();
 
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   String? selectedCategory;
 
@@ -189,7 +189,7 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
                                 _textFormFeilds(
                                   valuekey: 'JobTitle',
                                   controller: _jobTitleController,
-                                  enable: false,
+                                  enable: true,
                                   fct: (){},
                                   maxLength: 100,
                                 ),
@@ -197,7 +197,7 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
                                 _textFormFeilds(
                                   valuekey: 'JobDescription',
                                   controller: _jobDescriptionController,
-                                  enable: false,
+                                  enable: true,
                                   fct: (){},
                                   maxLength: 100,
                                 ),
@@ -205,7 +205,7 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
                                 _textFormFeilds(
                                   valuekey: 'Deadline',
                                   controller: _jobDeadLineDateController,
-                                  enable: false,
+                                  enable: true,
                                   fct: (){},
                                   maxLength: 100,
                                 ),
