@@ -222,7 +222,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           const SizedBox(
                               height: 80), // Adjusted height to push name lower
                           Card(
-                            color: Colors.grey[500],
+                            color: Colors.grey[360],
                             margin: const EdgeInsets.all(8),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -350,7 +350,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             20),
-                                                    color: Colors.grey[400]),
+                                                    color: Colors.grey[350]),
                                                 child: Column(
                                                   children: [
                                                     SwitchListTile(

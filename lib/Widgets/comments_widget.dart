@@ -74,7 +74,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                   style: TextStyle(
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.bold,
-                    color: Colors.grey,
+                    color: Colors.black,
                     fontSize: 16,
                   ),
                 ),
@@ -84,7 +84,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.normal,
-                    color: Colors.grey,
+                    color: Colors.black38,
                     fontSize: 13,
                   ),
                 ),

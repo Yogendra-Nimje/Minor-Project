@@ -47,7 +47,7 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
       child: Text(
         lable,
         style: const TextStyle(
-          color: Colors.black,
+          color: Colors.white,
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
@@ -78,23 +78,17 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
           },
           key: ValueKey(valuekey),
           style: const TextStyle(
-            color: Colors.white,
+            color: Colors.black,
           ),
           maxLines: valuekey == "JobDescription" ? 3 : 1,
           maxLength: maxLength,
           keyboardType: TextInputType.text,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             filled: true,
-            fillColor: Colors.black54,
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black),
-            ),
-            errorBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.red),
-            ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide.none,
+              )
           ),
         ),
       ),
@@ -113,24 +107,18 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
             child:  Text(
               value,
               style: const TextStyle(
-                color: Colors.white, // White text for visibility
+                color: Colors.black, // White text for visibility
                 fontSize: 16,
               ),
             ),
           );
         }).toList(),
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           filled: true,
-          fillColor: Colors.black54,
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-          ),
-          errorBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
-          ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide.none,
+            )
         ),
         onChanged: (newValue) {
           setState(() {
@@ -140,7 +128,7 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
         },
         hint: const Text(
           "Select Job Category",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
         validator: (value) {
           if (value == null || value.isEmpty) {
@@ -174,19 +162,13 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
       child: TextFormField(
         controller: _jobDeadLineDateController,
         readOnly: true,
-        style: const TextStyle(color: Colors.white), // Keep the text color white
+        style: const TextStyle(color: Colors.black), // Keep the text color white
         onTap: _picDateDialog, // Call date picker on tap
-        decoration: const InputDecoration(
+        decoration:  InputDecoration(
           filled: true,
-          fillColor: Colors.black54,
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-          ),
-          errorBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide.none,
           ),
           hintText: "Job DeadLine Date",
           hintStyle: TextStyle(color: Colors.white),
@@ -313,7 +295,7 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
                             child: Text(
                               "Please fill all your feilds",
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
                               ),
