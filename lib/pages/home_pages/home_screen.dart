@@ -1,11 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:find_in/Persistent/persistent.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-import '../../componants/job_card.dart';
+import '../../Widgets/job_widget.dart';
 import "package:intl/intl.dart";
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  TextEditingController _jobSearchController = TextEditingController();
+  String searchQuery = "Search query";
 
   // Method to get the current date formatted
   String getCurrentDate() {
@@ -13,102 +26,103 @@ class HomeScreen extends StatelessWidget {
     return DateFormat('EEEE, dd MMMM yyyy').format(now);
   }
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Persistent persistent = Persistent();
+    persistent.getData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: ListView(
-          padding: const EdgeInsets.all(16.0),
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false, // Hides the back button
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            Row(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      getCurrentDate(), // Display today's date
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                    const Text(
-                      "Search, Find, and Apply",
-                      style: TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                  ],
-                ),
-                const Expanded(child: Icon(CupertinoIcons.bell))
-              ],
+            Text(
+              getCurrentDate(), // Display today's date
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
             ),
-            // Search Bar
-            Padding(
-              padding:  const EdgeInsets.symmetric(vertical: 8.0,horizontal: 6),
-              child: Row(
-                children: [
-                  Expanded(
-                    child:Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.secondary,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Row(
-                        children: [
-                          const Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 18),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'Search for job',
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: const BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(16),
-                                bottomRight: Radius.circular(16),
-                              ),
-                            ),
-                            child: const Icon(
-                              Icons.search,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 16.0),
-
-            // Job Listings
-            const JobCard(
-              company: "Google, Inc.",
-              jobTitle: "Agency Business Lead",
-              description:
-              "Businesses that partner with Google come in all shapes, sizes and market caps, and no one Google advertising solution works for all.",
-              daysAgo: "4 days ago",
-              applicants: "240 Applicants",
-              logoAsset: 'lib/assets/google.png', // Path to the Google logo asset
-            ),
-
-            const SizedBox(height: 16.0),
-
-            const JobCard(
-              company: "Twitter, Inc.",
-              jobTitle: "Senior Product Manager",
-              description:
-              "Twitter promotes and protects the public conversation.",
-              daysAgo: "1 day ago",
-              applicants: "150 Applicants",
-              logoAsset: 'lib/assets/icon_chat.png', // path of image path
+            const SizedBox(height: 4),
+            const Text(
+              "Search, Find, and Apply",
+              style: TextStyle(fontSize: 16, color: Colors.black),
             ),
           ],
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+            },
+            icon: const Icon(CupertinoIcons.bell),
+            color: Colors.black, // Icon color
+          ),
+        ],
+      ),
+
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            // Expanded ListView for job listings
+            Expanded(
+              child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                stream: FirebaseFirestore.instance
+                .collection("jobs")
+                .where("recruitment", isEqualTo: true)
+                .orderBy("createdAt", descending: false)
+                .snapshots(),
+                builder: (context, AsyncSnapshot snapshot){
+                  if(snapshot.connectionState == ConnectionState.waiting){
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }else if (snapshot.connectionState == ConnectionState.active){
+                    if(snapshot.data?.docs.isNotEmpty){
+                      return ListView.builder(
+                        itemCount: snapshot.data?.docs.length,
+                        itemBuilder: (BuildContext context, int index){
+                          return JobWidget(
+                            jobTitle: snapshot.data?.docs[index]["jobTitle"],
+                            jobDescription: snapshot.data?.docs[index]["jobDescription"],
+                            jobId: snapshot.data?.docs[index]["jobId"],
+                            uploadedBy: snapshot.data?.docs[index]["uploadedBy"],
+                            userImage: snapshot.data?.docs[index]["userImage"],
+                            name: snapshot.data?.docs[index]["name"],
+                            recruitment: snapshot.data?.docs[index]["recruitment"],
+                            email: snapshot.data?.docs[index]["email"],
+                            location: snapshot.data?.docs[index]["location"],
+                          );
+                        },
+                      );
+                    }
+                    else{
+                      return const Center(
+                        child: Text("There is no jobs"),
+                      );
+                    }
+                  }
+                  return const Center(
+                    child: Text(
+                      "Something want wrong",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

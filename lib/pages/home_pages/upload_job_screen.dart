@@ -1,8 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:find_in/Services/globle_methods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../Persistent/persistent.dart';
+import '../../Services/globle_variable.dart';
 import '../../componants/job_card.dart';
 
 class UploadJobScreen extends StatefulWidget {
@@ -14,16 +19,27 @@ class UploadJobScreen extends StatefulWidget {
 
 class _UploadJobScreenState extends State<UploadJobScreen> {
 
-  final TextEditingController _jobCategoryController = TextEditingController(text: "Select Job Category");
-  final TextEditingController _jobTitleController = TextEditingController();
-  final TextEditingController _jobDescriptionController = TextEditingController();
-  final TextEditingController _jobDeadLineDateController = TextEditingController(text: "Job DeadLine Date");
+  TextEditingController _jobCategoryController = TextEditingController(text: "Select Job Category");
+  TextEditingController _jobTitleController = TextEditingController();
+  TextEditingController _jobDescriptionController = TextEditingController();
+  TextEditingController _jobDeadLineDateController = TextEditingController(text: "Job DeadLine Date");
 
   final _formKey = GlobalKey<FormState>();
 
-  final bool _isLoading = false;
+  bool _isLoading = false;
 
   String? selectedCategory;
+  DateTime? picked;
+  Timestamp? deadLineDateTimeStamp;
+  
+  @override
+  void dispose(){
+    super.dispose();
+    _jobCategoryController.dispose();
+    _jobTitleController.dispose();
+    _jobDescriptionController.dispose();
+    _jobDeadLineDateController.dispose();
+  }
 
   Widget _textTitles({required String lable}){
     return Padding(
@@ -136,6 +152,136 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
     );
   }
 
+  void _picDateDialog() async {
+    picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now().subtract(const Duration(days: 0)),
+        lastDate: DateTime(2900)
+    );
+
+    if(picked != null){
+      setState(() {
+        _jobDeadLineDateController.text = "${picked!.year} - ${picked!.month} - ${picked!.day}";
+        deadLineDateTimeStamp = Timestamp.fromMicrosecondsSinceEpoch(picked!.microsecondsSinceEpoch);
+      });
+    }
+  }
+
+  Widget _jobDeadlinePicker() {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: TextFormField(
+        controller: _jobDeadLineDateController,
+        readOnly: true,
+        style: const TextStyle(color: Colors.white), // Keep the text color white
+        onTap: _picDateDialog, // Call date picker on tap
+        decoration: const InputDecoration(
+          filled: true,
+          fillColor: Colors.black54,
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
+          ),
+          errorBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
+          hintText: "Job DeadLine Date",
+          hintStyle: TextStyle(color: Colors.white),
+        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please pick a deadline date';
+          }
+          return null;
+        },
+      ),
+    );
+  }
+
+  void _uploadJob() async{
+    final jobId = const Uuid().v4();
+    User? user = FirebaseAuth.instance.currentUser;
+    final _uid = user!.uid;
+    final isValid = _formKey.currentState!.validate();
+
+    if(isValid){
+      if(_jobDeadLineDateController.text == "Choose job DeadLine date" || _jobCategoryController.text == "Choose job category"){
+        GlobleMethods.ShowErrorDialog(
+            error: "Pleas pick everything",
+            ctx: context,
+        );
+        return;
+      }
+      setState(() {
+        _isLoading = true;
+      });
+      try{
+        await FirebaseFirestore.instance.collection("jobs").doc(jobId).set({
+          "jobId": jobId,
+          "uploadedBy": _uid,
+          "email": user.email,
+          "jobTitle": _jobTitleController.text,
+          "jobDescription": _jobDescriptionController.text,
+          "deadLineDate": _jobDeadLineDateController.text,
+          "deadLineDateTimeStamp": deadLineDateTimeStamp,
+          "jobCategory": _jobCategoryController.text,
+          "jobComments": [],
+          "recruitment": true,
+          "createdAt": Timestamp.now(),
+          "name": name,
+          "userImage": userImage,
+          "location": location,
+          "applicants": 0,
+        });
+        await Fluttertoast.showToast(
+          msg: "The job has been uploaded",
+          toastLength: Toast.LENGTH_LONG,
+          backgroundColor: Colors.grey[500],
+          fontSize: 18,
+        );
+        _jobTitleController.clear();
+        _jobDescriptionController.clear();
+        setState(() {
+          _jobCategoryController.text = "Choose job category";
+          _jobDeadLineDateController.text = "Choose job DeadLine date";
+        });
+      }catch(error){
+        setState(() {
+          _isLoading = false;
+        });
+        GlobleMethods.ShowErrorDialog(error: error.toString(), ctx: context);
+      }
+      finally{
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+    else{
+      print("its not valid");
+    }
+  }
+
+  /*void getData()async {
+    final DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection("user").doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    setState(() {
+      name = userDoc.get("userName");
+      userImage = userDoc.get("userImage");
+      location = userDoc.get("address");
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    getData();
+  }*/
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -202,13 +348,7 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
                                   maxLength: 100,
                                 ),
                                 _textTitles(lable: "Job DeadLine Date :"),
-                                _textFormFeilds(
-                                  valuekey: 'Deadline',
-                                  controller: _jobDeadLineDateController,
-                                  enable: true,
-                                  fct: (){},
-                                  maxLength: 100,
-                                ),
+                                _jobDeadlinePicker(),
                               ],
                             ),
                           ),
@@ -219,7 +359,9 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
                             child: _isLoading
                             ? const CircularProgressIndicator()
                             : ElevatedButton(
-                              onPressed: (){},
+                              onPressed: (){
+                                _uploadJob();
+                              },
                               style: ElevatedButton.styleFrom(
                                 elevation: 5,
                                 padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 100.0),

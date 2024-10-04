@@ -333,7 +333,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20.0),
+                      /*const SizedBox(height: 20.0),
                       const Center(
                         child: Text(
                           "Or"
@@ -368,7 +368,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           ],
                         ),
                       ),
-                    ),
+                    ),*/
                     ],
                   ),
                 ),

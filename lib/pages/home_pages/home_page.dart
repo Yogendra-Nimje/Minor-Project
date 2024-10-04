@@ -1,7 +1,7 @@
 import 'package:find_in/pages/home_pages/applied_screen.dart';
 import 'package:find_in/pages/home_pages/profile_page.dart';
 import 'package:find_in/pages/home_pages/upload_job_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'home_screen.dart';
@@ -18,9 +18,8 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     const HomeScreen(),
-    const AppliedScreen(),
     const UploadJobScreen(),
-    const ProfilePage(),
+    ProfilePage(userId: FirebaseAuth.instance.currentUser?.uid ?? ""),
   ];
 
   void _onTabTapped(int index) {
@@ -42,11 +41,6 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home),
             label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.archivebox),
-            activeIcon: Icon(CupertinoIcons.archivebox_fill),
-            label: 'Applied',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.upload_file_outlined),

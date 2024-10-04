@@ -8,6 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_input/image_input.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({super.key});
@@ -37,12 +40,96 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _obscureText = true;
   bool _obscureText1 = true;
   bool _isloading = false;
+  File? _userImageFile;
+  String? imageUrl;
 
   get label => null;
+
+  void _showImageDialog(){
+    showDialog(
+        context: context,
+        builder: (context){
+          return AlertDialog(
+            title: Text("Pleas choose an option"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InkWell(
+                  onTap: (){
+                    // get Camera.
+                    _getFromCamera();
+                  },
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(4.0),
+                        child: Icon(
+                          Icons.camera,
+                          color: Colors.green[700],
+                        ),
+                      ),
+                      Text("camera", style: TextStyle(color: Colors.green[700], fontSize: 18,),),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: (){
+                    // get Gallery.
+                    _getFromGallery();
+                  },
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(4.0),
+                        child: Icon(
+                          Icons.image,
+                          color: Colors.green[700],
+                        ),
+                      ),
+                      Text("Gallery", style: TextStyle(color: Colors.green[700], fontSize: 18,),),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+    );
+  }
+
+  void _getFromCamera() async{
+    XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
+    _cropImage(pickedFile!.path);
+    Navigator.pop(context);
+  }
+
+  void _getFromGallery() async{
+    XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    _cropImage(pickedFile!.path);
+    Navigator.pop(context);
+  }
+
+  void _cropImage(filePath) async{
+    CroppedFile? croppedImage = await ImageCropper().cropImage(
+        sourcePath: filePath, maxHeight: 1080, maxWidth: 1080,
+    );
+
+    if(croppedImage != null){
+      setState(() {
+        _userImageFile= File(croppedImage.path);
+      });
+    }
+  }
 
   void _submitFormOnSignUp() async {
     final isValid = _signUpKey.currentState!.validate();
     if(isValid){
+
+      if(_userImageFile == null){
+        GlobleMethods.ShowErrorDialog(error: "Please pick an Image", ctx: context);
+        return;
+      }
+
       setState(() {
         _isloading = true;
       });
@@ -55,6 +142,8 @@ class _SignUpPageState extends State<SignUpPage> {
         final User? user = _auth.currentUser;
         final _uid = user!.uid;
         final ref = FirebaseStorage.instance.ref().child("userImages").child(_uid + ".jpg");
+        await ref.putFile(_userImageFile!);
+        imageUrl = await ref.getDownloadURL();
 
         FirebaseFirestore.instance.collection("user").doc(_uid).set({
           "id": _uid,
@@ -62,6 +151,7 @@ class _SignUpPageState extends State<SignUpPage> {
           "lastName": _userLastnameController.text,
           "userName": _usernameController.text,
           "email": _emailController.text,
+          "userImage": imageUrl,
           "password": _passwordController.text,
           "mobileNumber": _mobileNumberController.text,
           "address": _addressController.text,
@@ -111,8 +201,43 @@ class _SignUpPageState extends State<SignUpPage> {
                       )
                     ),
                   ),
-                  const SizedBox(height: 20.0),
+                  // user image.
+                  GestureDetector(
+                    onTap: (){
+                      _showImageDialog();
+                    },
+                    child: Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: 60,
+                          backgroundColor: Colors.white,
+                          backgroundImage: _userImageFile != null ? FileImage(_userImageFile!) : null,
+                          child: _userImageFile == null
+                              ? Icon(Icons.person, size: 60, color: Colors.grey[700])
+                              : null,
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[500], // Black background for the icon
+                              shape: BoxShape.circle, // Circular background
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                _userImageFile == null ? Icons.add_a_photo : Icons.edit,
+                                color: Colors.green[700], // Icon color
+                              ),
+                              onPressed: (){}, // Logic for picking/editing the image
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
 
+                  const SizedBox(height: 20.0),
                   // Row for First Name and Last Name Fields
                   Row(
                     children: [

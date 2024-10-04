@@ -1,4 +1,13 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../Services/globle_methods.dart';
 
 class EProfilePage extends StatefulWidget {
   @override
@@ -6,12 +15,175 @@ class EProfilePage extends StatefulWidget {
 }
 
 class _EProfilePageState extends State<EProfilePage> {
-  final _formKey = GlobalKey<FormState>();
-  String? _gender = 'Male';
-  String? _userType = 'Fresher';
-  String? _course = 'BCA';
-  String? _specialization = 'Computer Science';
-  DateTime? _dob;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _userFirstnameController = TextEditingController();
+  final TextEditingController _userLastnameController = TextEditingController();
+  final TextEditingController _mobileNumberController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+
+  final GlobalKey<FormState> _updateKey = GlobalKey<FormState>();
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  File? _userImageFile;
+  String? imageUrl;
+
+  bool _isLoading = false;
+
+  void _showImageDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Please choose an option"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InkWell(
+                onTap: () {
+                  _getFromCamera();
+                },
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: Icon(Icons.camera, color: Colors.green[700]),
+                    ),
+                    Text("Camera", style: TextStyle(color: Colors.green[700], fontSize: 18)),
+                  ],
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  _getFromGallery();
+                },
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: Icon(Icons.image, color: Colors.green[700]),
+                    ),
+                    Text("Gallery", style: TextStyle(color: Colors.green[700], fontSize: 18)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _getFromCamera() async {
+    XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      _cropImage(pickedFile.path);
+    }
+    Navigator.pop(context);
+  }
+
+  void _getFromGallery() async {
+    XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      _cropImage(pickedFile.path);
+    }
+    Navigator.pop(context);
+  }
+
+  void _cropImage(String filePath) async {
+    CroppedFile? croppedImage = await ImageCropper().cropImage(
+      sourcePath: filePath,
+      maxHeight: 1080,
+      maxWidth: 1080,
+    );
+
+    if (croppedImage != null) {
+      setState(() {
+        _userImageFile = File(croppedImage.path);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  void getUserData() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      final userDoc = await _firestore.collection("user").doc(_auth.currentUser?.uid).get();
+      if (userDoc.exists) {
+        setState(() {
+          _userFirstnameController.text = userDoc.get("firstName");
+          _userLastnameController.text = userDoc.get("lastName");
+          _usernameController.text = userDoc.get("userName");
+          _emailController.text = userDoc.get("email");
+          _mobileNumberController.text = userDoc.get("mobileNumber");
+          _addressController.text = userDoc.get("address");
+          imageUrl = userDoc.get("userImage");
+          // Load existing user image if available
+          if (imageUrl != null) {
+            _userImageFile = File(imageUrl!); // Optionally load image if it was previously stored
+          }
+        });
+      }
+    } catch (error) {
+      GlobleMethods.ShowErrorDialog(error: error.toString(), ctx: context);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _updateUserProfile() async {
+    final isValid = _updateKey.currentState!.validate();
+    if (isValid) {
+      if (_userImageFile == null) {
+        GlobleMethods.ShowErrorDialog(error: "Please pick an Image", ctx: context);
+        return;
+      }
+
+      setState(() {
+        _isLoading = true;
+      });
+      try {
+        final user = _auth.currentUser;
+        final _uid = user!.uid;
+        final ref = FirebaseStorage.instance.ref().child("userImages").child("$_uid.jpg");
+        await ref.putFile(_userImageFile!);
+        imageUrl = await ref.getDownloadURL();
+
+        // Update user data in Firestore
+        await _firestore.collection("user").doc(_uid).set({
+          "id": _uid,
+          "firstName": _userFirstnameController.text,
+          "lastName": _userLastnameController.text,
+          "userName": _usernameController.text,
+          "email": _emailController.text,
+          "userImage": imageUrl,
+          "mobileNumber": _mobileNumberController.text,
+          "address": _addressController.text,
+          "createAt": Timestamp.now(),
+        });
+
+        // Navigate back or show success message
+        Navigator.canPop(context) ? Navigator.pop(context) : null;
+      } catch (error) {
+        GlobleMethods.ShowErrorDialog(error: error.toString(), ctx: context);
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,42 +193,33 @@ class _EProfilePageState extends State<EProfilePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _updateKey,
             child: Column(
               children: [
-                const CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage('lib/assets/img.jpg'),
+                InkWell(
+                  onTap: _showImageDialog,
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: _userImageFile != null ? NetworkImage(imageUrl!) : null,
+                    child: _userImageFile == null
+                        ? const Icon(Icons.add_a_photo, size: 50) // Placeholder icon when no image is selected
+                        : null,
+                  ),
                 ),
                 const SizedBox(height: 16),
-                _buildTextField('First Name', 'Yogendra'),
-                SizedBox(height: 12),
-                _buildTextField('Last Name', 'Nimje'),
-                SizedBox(height: 12),
-                _buildDisabledTextField('Username', '483yonim2786'),
-                SizedBox(height: 12),
-                _buildDisabledTextField('Email', 'yogendranimje87@gmail.com'),
-                SizedBox(height: 12),
-                _buildTextField('Mobile', '8347925393'),
+                _buildTextField('First Name', _userFirstnameController),
+                const SizedBox(height: 12),
+                _buildTextField('Last Name', _userLastnameController),
+                const SizedBox(height: 12),
+                _buildDisabledTextField('Username', _usernameController),
+                const SizedBox(height: 12),
+                _buildDisabledTextField('Email', _emailController),
+                const SizedBox(height: 12),
+                _buildTextField('Mobile', _mobileNumberController),
                 const SizedBox(height: 16),
-                _buildGenderSelector(),
-                _buildUserTypeSelector(),
-                const SizedBox(height: 16),
-                _buildDropdownField('Course', _course, ['BCA', 'BBA', 'BCom']),
-                const SizedBox(height: 12),
-                _buildDropdownField('Specialization', _specialization, ['Computer Science', 'Marketing', 'Finance']),
-                SizedBox(height: 12),
-                _buildCourseDuration(),
-                const SizedBox(height: 12),
-                _buildTextField('College', 'SDJ International College, Surat'),
-                const SizedBox(height: 12),
-                _buildDatePicker(context),
-                const SizedBox(height: 12),
-                _buildAddressFields('Current Address'),
-                const SizedBox(height: 12),
-                _buildAddressFields('Permanent Address'),
+                _buildAddressFields('Location', _addressController),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -67,14 +230,9 @@ class _EProfilePageState extends State<EProfilePage> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Save basic details
-                    }
-                  },
+                  onPressed: _updateUserProfile,
                   child: const Text('Save'),
                 )
-
               ],
             ),
           ),
@@ -83,177 +241,41 @@ class _EProfilePageState extends State<EProfilePage> {
     );
   }
 
-  Widget _buildTextField(String label, String initialValue) {
+  Widget _buildTextField(String label, TextEditingController controller) {
     return TextFormField(
-      initialValue: initialValue,
+      controller: controller,
       decoration: InputDecoration(
         labelText: label,
         border: OutlineInputBorder(),
       ),
-    );
-  }
-
-  Widget _buildDisabledTextField(String label, String value) {
-    return TextFormField(
-      initialValue: value,
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(),
-      ),
-      enabled: false,
-    );
-  }
-
-  Widget _buildGenderSelector() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text('Gender'),
-        Row(
-          children: [
-            Radio(
-              activeColor: Colors.green,
-              value: 'Male',
-              groupValue: _gender,
-              onChanged: (value) {
-                setState(() {
-                  _gender = value;
-                });
-              },
-            ),
-            Text('Male'),
-            Radio(
-              activeColor: Colors.green,
-              value: 'Female',
-              groupValue: _gender,
-              onChanged: (value) {
-                setState(() {
-                  _gender = value;
-                });
-              },
-            ),
-            Text('Female'),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildUserTypeSelector() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Text('User Type'),
-        Row(
-          children: [
-            Radio(
-              activeColor: Colors.green,
-              value: 'Fresher',
-              groupValue: _userType,
-              onChanged: (value) {
-                setState(() {
-                  _userType = value;
-                });
-              },
-            ),
-            const Text('Fresher'),
-            Radio(
-              activeColor: Colors.green,
-              value: 'Professional',
-              groupValue: _userType,
-              onChanged: (value) {
-                setState(() {
-                  _userType = value;
-                });
-              },
-            ),
-            const Text('Professional'),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDropdownField(String label, String? currentValue, List<String> options) {
-    return DropdownButtonFormField<String>(
-      value: currentValue,
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(),
-      ),
-      onChanged: (value) {
-        setState(() {
-          currentValue = value;
-        });
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Please enter $label';
+        }
+        return null;
       },
-      items: options.map((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
     );
   }
 
-  Widget _buildCourseDuration() {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildTextField('Course Start', '2022'),
-        ),
-        SizedBox(width: 10),
-        Expanded(
-          child: _buildTextField('Course End', '2025'),
-        ),
-      ],
+  Widget _buildDisabledTextField(String label, TextEditingController controller) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(),
+      ),
+      enabled: true,
     );
   }
 
-  Widget _buildDatePicker(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: TextFormField(
-            decoration: InputDecoration(
-              labelText: _dob != null
-                  ? "${_dob!.day}/${_dob!.month}/${_dob!.year}"
-                  : 'Date of Birth',
-              border: OutlineInputBorder(),
-            ),
-            onTap: () async {
-              DateTime? picked = await showDatePicker(
-                context: context,
-                initialDate: DateTime(2000),
-                firstDate: DateTime(1900),
-                lastDate: DateTime.now(),
-              );
-              if (picked != null) {
-                setState(() {
-                  _dob = picked;
-                });
-              }
-            },
-            readOnly: true,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildAddressFields(String addressType) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('$addressType'),
-        _buildTextField('Address Line 1', 'Plot.79'),
-        const SizedBox(height: 12),
-        _buildTextField('Address Line 2', 'Asthik nagar limbayat Surat'),
-        const SizedBox(height: 12),
-        _buildTextField('Landmark', 'ner. sanjay nagar'),
-        const SizedBox(height: 12),
-        _buildTextField('Pincode', '394210'),
-        const SizedBox(height: 12),
-      ],
+  Widget _buildAddressFields(String label, TextEditingController controller) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(),
+      ),
+      enabled: true,
     );
   }
 }
