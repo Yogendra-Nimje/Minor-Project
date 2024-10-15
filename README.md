@@ -6,8 +6,10 @@ Minor Project Sem5
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 Inter Face:
+
+![iphone-tilted-zoom-out](https://github.com/user-attachments/assets/19ef0067-3935-4a43-9a35-0bf7da30503e)
+
 
 ![iphone-tilted-zoom-out (2)](https://github.com/user-attachments/assets/4c6dd3ca-12c8-4f95-93d1-ffef080d9d62)  
 
