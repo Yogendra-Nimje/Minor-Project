@@ -25,8 +25,8 @@ Inter Face:
 
 <img width="300" alt="Screenshot 2024-12-28 170208" src="https://github.com/user-attachments/assets/cb01e540-05b7-43bf-90a2-4c39f6005b7d" />
 
+<img width="300" alt="Screenshot 2024-12-28 170208" src="https://github.com/user-attachments/assets/202311a0-b439-4a4c-8118-d5d6e2701382" />
 
-![4](https://github.com/user-attachments/assets/202311a0-b439-4a4c-8118-d5d6e2701382)
 
 
 
